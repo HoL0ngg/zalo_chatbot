@@ -11,6 +11,28 @@ app.use(bodyParser.json());
 dotenv.config();
 const ZALO_ACCESS_TOKEN = process.env.ZALO_ACCESS_TOKEN;
 
+app.get('/', (req, res) => {
+    const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>MyShop Backend</title>
+        <meta name="zalo-platform-site-verification" content="Gy-X3vhz5XbGtvKLr-4O7175aolziqTqDZap" />
+      </head>
+      <body>
+        <h1>Backend đang chạy!</h1>
+        <p>API Ready.</p>
+      </body>
+    </html>
+  `;
+
+    res.send(html);
+});
+
+const ALLOWED_TESTERS = [
+    ''
+];
+
 async function sendUserInfoRequestV3(userId) {
     if (!ALLOWED_TESTERS.includes(userId)) {
         console.log(`[BLOCKED] Đã chặn gửi tin đến khách hàng lạ: ${userId}`);
