@@ -87,6 +87,9 @@ app.post('/zalo-webhook', (req, res) => {
         if (eventData.event_name === 'user_send_text') {
             const userMessage = eventData.message.text;
             console.log(userMessage);
+            console.log(senderId);
+
+            sendUserInfoRequestV3(senderId);
         }
 
         // --- XỬ LÝ SỰ KIỆN 2: NGƯỜI DÙNG ĐÃ BẤM GỬI FORM ---
