@@ -30,7 +30,6 @@ app.get('/', (req, res) => {
 
 async function sendUserInfoRequestV3(userId) {
 
-    console.log(`[SAFE] Đang gửi mẫu xin thông tin cho Tester: ${userId}`);
 
     const url = 'https://openapi.zalo.me/v3.0/oa/message/cs';
     const payload = {
@@ -41,8 +40,8 @@ async function sendUserInfoRequestV3(userId) {
                 payload: {
                     template_type: "request_user_info",
                     elements: [{
-                        title: "TESTING BOT",
-                        subtitle: "Đây là tin nhắn kiểm thử kỹ thuật, vui lòng bỏ qua.",
+                        title: "Đăng ký thành viên",
+                        subtitle: "Bạn ơi! Đăng ký thành viên và theo dõi trang Zalo OA của TOMAX Holding để luôn là người đầu tiên nhận thông tin ƯU ĐÃI và mua sắm nhanh chóng, tiện lợi hơn nha! 💚",
                         image_url: "https://f37-zfcloud.zdn.vn/62baec9351d5f18ba8c4/4075447654580633971"
                     }]
                 }
@@ -68,9 +67,6 @@ app.post('/zalo-webhook', (req, res) => {
     if (eventData.user_id_by_app) {
         const senderId = eventData.user_id_by_app;
 
-        console.log(eventData.event_name);
-
-
         // --- XỬ LÝ SỰ KIỆN 1: NGƯỜI DÙNG CHAT KÍCH HOẠT ---
         if (eventData.event_name === 'user_send_text') {
             const userMessage = eventData.message.text;
@@ -81,14 +77,14 @@ app.post('/zalo-webhook', (req, res) => {
 
         // --- XỬ LÝ SỰ KIỆN 2: NGƯỜI DÙNG ĐÃ BẤM GỬI FORM ---
         if (eventData.event_name === 'user_submit_info') {
-            console.log('>>> NHẬN DỮ LIỆU TEST THÀNH CÔNG:');
-            console.log('Tên:', eventData.info.name);
-            console.log('SĐT:', eventData.info.phone);
+            // console.log('>>> NHẬN DỮ LIỆU TEST THÀNH CÔNG:');
+            // console.log('Tên:', eventData.info.name);
+            // console.log('SĐT:', eventData.info.phone);
         }
 
         // --- XỬ LÝ SỰ KIỆN 3: NGƯỜI DÙNG MỚI THEO DÕI OA ---
         if (eventData.event_name === 'follow') {
-            console.log(senderId);
+            // console.log(senderId);
             sendUserInfoRequestV3(senderId);
         }
     }
