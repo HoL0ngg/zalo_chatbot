@@ -28,15 +28,7 @@ app.get('/', (req, res) => {
     res.send(html);
 });
 
-const ALLOWED_TESTERS = [
-    ''
-];
-
 async function sendUserInfoRequestV3(userId) {
-    // if (!ALLOWED_TESTERS.includes(userId)) {
-    //     console.log(`[BLOCKED] Đã chặn gửi tin đến khách hàng lạ: ${userId}`);
-    //     return; // Dừng ngay, không gửi gì cả
-    // }
 
     console.log(`[SAFE] Đang gửi mẫu xin thông tin cho Tester: ${userId}`);
 
@@ -76,12 +68,8 @@ app.post('/zalo-webhook', (req, res) => {
     if (eventData.sender && eventData.sender.id) {
         const senderId = eventData.user_id_by_app;
 
-        // 2. CHỐT CHẶN AN TOÀN TẠI WEBHOOK
-        // Nếu người tương tác KHÔNG PHẢI là bạn -> Bỏ qua luôn
-        // if (!ALLOWED_TESTERS.includes(senderId)) {
-        // Vẫn trả về 200 để Zalo không báo lỗi, nhưng Server mình không làm gì cả
-        // return res.status(200).send('OK');
-        // }
+        console.log(eventData.event_name);
+
 
         // --- XỬ LÝ SỰ KIỆN 1: NGƯỜI DÙNG CHAT KÍCH HOẠT ---
         if (eventData.event_name === 'user_send_text') {
