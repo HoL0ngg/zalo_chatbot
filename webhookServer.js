@@ -65,7 +65,7 @@ app.post('/zalo-webhook', (req, res) => {
     const eventData = req.body;
 
     // Chỉ xử lý nếu có người gửi (sender)
-    if (eventData.sender && eventData.sender.id) {
+    if (eventData.user_id_by_app) {
         const senderId = eventData.user_id_by_app;
 
         console.log(eventData.event_name);
