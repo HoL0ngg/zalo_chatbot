@@ -74,7 +74,7 @@ app.post('/zalo-webhook', (req, res) => {
 
     // Chỉ xử lý nếu có người gửi (sender)
     if (eventData.sender && eventData.sender.id) {
-        const senderId = eventData.sender.id || eventData.follower.id;
+        const senderId = eventData.user_id_by_app;
 
         // 2. CHỐT CHẶN AN TOÀN TẠI WEBHOOK
         // Nếu người tương tác KHÔNG PHẢI là bạn -> Bỏ qua luôn
@@ -88,8 +88,7 @@ app.post('/zalo-webhook', (req, res) => {
             const userMessage = eventData.message.text;
             console.log(userMessage);
             console.log(senderId);
-
-            sendUserInfoRequestV3(senderId);
+            // sendUserInfoRequestV3(senderId);
         }
 
         // --- XỬ LÝ SỰ KIỆN 2: NGƯỜI DÙNG ĐÃ BẤM GỬI FORM ---
@@ -101,6 +100,7 @@ app.post('/zalo-webhook', (req, res) => {
 
         // --- XỬ LÝ SỰ KIỆN 3: NGƯỜI DÙNG MỚI THEO DÕI OA ---
         if (eventData.event_name === 'follow') {
+            console.log(senderId);
             sendUserInfoRequestV3(senderId);
         }
     }
