@@ -82,7 +82,7 @@ async function getValidAccessToken() {
 
     const hoursSinceUpdate = (new Date() - tokenData.updatedAt) / (1000 * 60 * 60);
 
-    if (hoursSinceUpdate > 23 || !tokenData.accessToken) {
+    if (hoursSinceUpdate > 23 || tokenData.accessToken === 'token_dummy' || !tokenData.accessToken) {
         console.log(`⏳ Token đã cũ (${hoursSinceUpdate.toFixed(1)}h), đang gia hạn...`);
         const newTokens = await refreshAccessToken(tokenData.refreshToken);
 
