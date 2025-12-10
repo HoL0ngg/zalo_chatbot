@@ -144,6 +144,53 @@ app.post('/zalo-webhook', (req, res) => {
     res.status(200).send('OK');
 });
 
+app.get('/zalo-callback', async (req, res) => {
+    const { code, oa_id } = req.query;
+
+    if (!code) {
+        return res.status(400).send('❌ Không tìm thấy Authorization Code!');
+    }
+
+    console.log('🔄 Đang đổi Code lấy Token...');
+
+    try {
+        const response = await axios.post('https://oauth.zaloapp.com/v4/oa/access_token',
+            qs.stringify({
+                code: code,
+                app_id: APP_ID,
+                grant_type: 'authorization_code'
+            }), {
+            headers: {
+                'secret_key': SECRET_KEY,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        const data = response.data;
+
+        if (data.access_token) {
+            await TokenModel.findOneAndUpdate(
+                { id: 'zalo_token_storage' },
+                {
+                    accessToken: data.access_token,
+                    refreshToken: data.refresh_token,
+                    updatedAt: new Date()
+                },
+                { upsert: true, new: true }
+            );
+
+            res.send('<h1>🎉 Cấp quyền thành công! Bot đã sẵn sàng hoạt động.</h1>');
+        } else {
+            console.error('Lỗi đổi token:', data);
+            res.status(500).send(`❌ Lỗi từ Zalo: ${JSON.stringify(data)}`);
+        }
+
+    } catch (error) {
+        console.error('Lỗi kết nối:', error.message);
+        res.status(500).send('❌ Lỗi Server nội bộ');
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Webhook server đang chạy tại cổng ${PORT}`);
 });
