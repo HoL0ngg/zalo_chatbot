@@ -112,7 +112,7 @@ async function sendUserInfoRequestV3(userId) {
                     elements: [{
                         title: "Đăng ký thành viên",
                         subtitle: "Bạn ơi! Đăng ký thành viên và theo dõi trang Zalo OA của TOMAX Holding để luôn là người đầu tiên nhận thông tin ƯU ĐÃI và mua sắm nhanh chóng, tiện lợi hơn nha! 💚",
-                        image_url: "https://f37-zfcloud.zdn.vn/62baec9351d5f18ba8c4/4075447654580633971"
+                        image_url: "https://f36-zfcloud.zdn.vn/beb8c57c502ef070a93f/1862497078564040680"
                     }]
                 }
             }
