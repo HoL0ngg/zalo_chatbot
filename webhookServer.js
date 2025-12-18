@@ -129,6 +129,26 @@ async function sendUserInfoRequestV3(userId) {
     }
 }
 
+async function sendTextMessage(userId, textContent) {
+    const accessToken = await getValidAccessToken(); // Tự động lấy token xịn
+    const url = 'https://openapi.zalo.me/v3.0/oa/message/cs';
+
+    const payload = {
+        recipient: { user_id: userId },
+        message: {
+            text: textContent
+        }
+    };
+
+    try {
+        await axios.post(url, payload, {
+            headers: { 'access_token': accessToken }
+        });
+    } catch (error) {
+        console.error('❌ Lỗi gửi tin nhắn:', error.response ? error.response.data : error.message);
+    }
+}
+
 // Endpoint nhận Webhook từ Zalo
 app.post('/zalo-webhook', (req, res) => {
     const eventData = req.body;
@@ -138,6 +158,9 @@ app.post('/zalo-webhook', (req, res) => {
         const senderId = eventData.user_id_by_app;
         if (eventData.event_name === 'follow') {
             sendUserInfoRequestV3(senderId);
+        }
+        if (eventData.event_name === 'user_submit_info') {
+            sendTextMessage(senderId, "Chúc mừng bạn đã đăng ký thành công chương trình thành viên TOMAX Holding. Theo dõi để đề cập thêm nhiều chương trình ưu đãi hấp dẫn từ từ TOMAX Holding nhé 💚");
         }
     }
 
