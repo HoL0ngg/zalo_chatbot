@@ -153,10 +153,10 @@ async function sendTextMessage(userId, textContent) {
 app.post('/zalo-webhook', (req, res) => {
     const eventData = req.body;
 
+    console.log(eventData.event_name);
     // Chỉ xử lý nếu có người gửi (sender)
     if (eventData.user_id_by_app) {
         const senderId = eventData.user_id_by_app;
-        console.log(eventData.event_name);
         if (eventData.event_name === 'follow') {
             sendUserInfoRequestV3(senderId);
         }
