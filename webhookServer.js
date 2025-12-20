@@ -153,19 +153,18 @@ async function sendTextMessage(userId, textContent) {
 app.post('/zalo-webhook', (req, res) => {
     const eventData = req.body;
 
-    console.log(eventData);
-    console.log(">>>>>>>>>>>>>>>>>>>>>>");
-
-    // Chỉ xử lý nếu có người gửi (sender)
     if (eventData.user_id_by_app) {
         const senderId = eventData.user_id_by_app;
         if (eventData.event_name === 'follow') {
             sendUserInfoRequestV3(senderId);
         }
-        if (eventData.event_name === 'user_submit_info') {
-            sendTextMessage(senderId, "Chúc mừng bạn đã đăng ký thành công chương trình thành viên TOMAX Holding. Theo dõi để đề cập thêm nhiều chương trình ưu đãi hấp dẫn từ từ TOMAX Holding nhé 💚");
+        if (eventData.event_name === 'user_send_text') {
+            const text = eventData.message.text;
+            if (text.includes('Bạn đã gửi thông tin cho OA TOMAX HOLDING với nội dung:')) {
+                sendUserInfoRequestV3(senderId, "Chúc mừng bạn đã đăng ký thành công chương trình thành viên TOMAX Holding.Theo dõi để đề cập thêm nhiều chương trình ưu đãi hấp dẫn từ từ TOMAX Holding nhé 💚");
+            }
+            // sendTextMessage(senderId, "Chúc mừng bạn đã đăng ký thành công chương trình thành viên TOMAX Holding. Theo dõi để đề cập thêm nhiều chương trình ưu đãi hấp dẫn từ từ TOMAX Holding nhé 💚");
         }
-
     }
 
     res.status(200).send('OK');
