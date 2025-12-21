@@ -161,7 +161,7 @@ app.post('/zalo-webhook', (req, res) => {
         if (eventData.event_name === 'user_send_text') {
             const text = eventData.message.text;
             if (text.includes('Bạn đã gửi thông tin cho OA TOMAX HOLDING với nội dung:')) {
-                sendTextMessage(senderId, "Chúc mừng bạn đã đăng ký thành công chương trình thành viên TOMAX Holding.Theo dõi để đề cập thêm nhiều chương trình ưu đãi hấp dẫn từ từ TOMAX Holding nhé 💚");
+                sendTextMessage(senderId, "Chúc mừng bạn đã đăng ký thành công chương trình thành viên TOMAX Holding. Theo dõi để cập nhật thêm nhiều chương trình ưu đãi hấp dẫn từ TOMAX Holding nhé 💚");
             }
             // sendTextMessage(senderId, "Chúc mừng bạn đã đăng ký thành công chương trình thành viên TOMAX Holding. Theo dõi để đề cập thêm nhiều chương trình ưu đãi hấp dẫn từ từ TOMAX Holding nhé 💚");
         }
